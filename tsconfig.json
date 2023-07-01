@@ -23,6 +23,8 @@
 			"@public/*": ["./public/*"],
 			"@atoms/*": ["./src/app/*"],
 			"@molecules/*": ["./src/molecules/*"],
+			"@custom-hooks/*": ["./src/custom-hooks/*"],
+			"@providers/*": ["./src/providers/*"],
 			"@/*": ["./src/*"]
 		}
 	},
