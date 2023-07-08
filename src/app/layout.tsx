@@ -1,5 +1,6 @@
 import { Open_Sans } from "next/font/google";
 import Navbar from "@molecules/navbar/Navbar";
+import RegisterModal from "@molecules/modals/RegisterModal";
 import "@atoms/globals.css";
 
 export const metadata = {
@@ -15,6 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 		<html lang="en">
 			<body className={font.className}>
 				<Navbar />
+				<RegisterModal />
 				{children}
 			</body>
 		</html>
