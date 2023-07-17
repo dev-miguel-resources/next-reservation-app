@@ -2,7 +2,7 @@
 import Container from "@molecules/container/Container";
 import Logo from "@molecules/logo/Logo";
 import Search from "@molecules/search/Search";
-import UserMenu from "@molecules/userMenu/userMenu";
+import UserMenu from "@molecules/userMenu/UserMenu";
 
 // Design Pattern Stateful/Stateless
 // Stateless
