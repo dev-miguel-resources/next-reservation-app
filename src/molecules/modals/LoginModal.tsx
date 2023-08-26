@@ -3,15 +3,17 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
-import axios from "axios";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Modal from "@molecules/modals/Modal";
 import Heading from "@molecules/heading/Heading";
 import Input from "@molecules/inputs/Input";
 import Button from "@molecules/button/Button";
-import useRegisterModal from "@custom-hooks/useRegisterModal";
+import useLoginModal from "@custom-hooks/useLoginModal";
 
-const RegisterModal = () => {
-  const registerModal = useRegisterModal();
+const LoginModal = () => {
+  const loginModal = useLoginModal();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   // init form
@@ -21,7 +23,6 @@ const RegisterModal = () => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
@@ -29,27 +30,37 @@ const RegisterModal = () => {
 
   const onSubmit: SubmitHandler<FieldValues> = data => {
     setIsLoading(true);
-    axios
-      .post("/api/register", data)
-      .then(() => {
-        toast.success("Registrado!");
-        registerModal.onClose();
-      })
-      .catch(error => {
-        toast.error("Ha ocurrido un error.");
-        console.log(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+
+    signIn("credentials", {
+      ...data,
+      redirect: false,
+    }).then(callback => {
+      setIsLoading(false);
+      if (callback?.ok) {
+        toast.success("Usuario  logueado");
+        router.refresh();
+        loginModal.onClose();
+      }
+
+      if (callback?.error) {
+        toast.error(callback.error);
+      }
+    });
   };
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Te damos la bienvenida a Airbnb" subtitle="Crea una cuenta!" />
+      <Heading title="Bienvenido de vuelta" subtitle="Inicia sesión con tu cuenta!" />
       <Input id="email" label="Correo" disabled={isLoading} register={register} errors={errors} required />
-      <Input id="name" label="Nombre" disabled={isLoading} register={register} errors={errors} required />
-      <Input id="password" label="Contraseña" disabled={isLoading} register={register} errors={errors} required />
+      <Input
+        id="password"
+        label="Contraseña"
+        type="password"
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+        required
+      />
     </div>
   );
 
@@ -70,18 +81,14 @@ const RegisterModal = () => {
 						justify-center flex flex-row items-center gap-2
 					"
         >
-          <div>Ya tienes una cuenta?</div>
           <div
-            onClick={registerModal.onClose}
+            onClick={loginModal.onClose}
             className="
 							text-neutral-500
 							cursor-pointer
 							hover:underline
 						"
-          >
-            {" "}
-            Logueate
-          </div>
+          ></div>
         </div>
       </div>
     </div>
@@ -90,10 +97,10 @@ const RegisterModal = () => {
   return (
     <Modal
       disabled={isLoading}
-      isOpen={registerModal.isOpen}
-      title="Iniciar sesión o registrarse"
+      isOpen={loginModal.isOpen}
+      title="Iniciar Sesión"
       actionLabel="Continúa"
-      onClose={registerModal.onClose}
+      onClose={loginModal.onClose}
       onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
@@ -101,4 +108,4 @@ const RegisterModal = () => {
   );
 };
 
-export default RegisterModal;
+export default LoginModal;

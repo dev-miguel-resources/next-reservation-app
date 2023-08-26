@@ -1,12 +1,17 @@
 "use client";
 import { useState, useCallback } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
+import { signOut } from "next-auth/react";
 import Avatar from "@molecules/avatar/Avatar";
 import MenuItem from "@molecules/menuItem/MenuItem";
 import useRegisterModal from "@custom-hooks/useRegisterModal";
+import useLoginModal from "@custom-hooks/useLoginModal";
 
+// dejar algunas definiciones pendientes: currentUser
+//  no olvidar lo del signout
 const UserMenu = () => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
   const [isOpen, setIsOpen] = useState(false);
 
   const toogleOpen = useCallback(() => {
@@ -75,7 +80,7 @@ const UserMenu = () => {
           <div className="flex flex-col cursor-pointer">
             <>
               <MenuItem onClick={registerModal.onOpen} label="Regístrate" />
-              <MenuItem onClick={() => {}} label="Iniciar Sesión" />
+              <MenuItem onClick={loginModal.onOpen} label="Iniciar Sesión" />
             </>
           </div>
         </div>
