@@ -6,10 +6,11 @@ import Avatar from "@molecules/avatar/Avatar";
 import MenuItem from "@molecules/menuItem/MenuItem";
 import useRegisterModal from "@custom-hooks/useRegisterModal";
 import useLoginModal from "@custom-hooks/useLoginModal";
+import { UserMenuProps } from "./interfaces/userMenuProps.interface";
 
 // dejar algunas definiciones pendientes: currentUser
 //  no olvidar lo del signout
-const UserMenu = () => {
+const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [isOpen, setIsOpen] = useState(false);
@@ -58,7 +59,7 @@ const UserMenu = () => {
         >
           <AiOutlineMenu />
           <div className="hidden md:block">
-            <Avatar />
+            <Avatar src={currentUser?.image} />
           </div>
         </div>
       </div>
@@ -78,10 +79,22 @@ const UserMenu = () => {
 				"
         >
           <div className="flex flex-col cursor-pointer">
-            <>
-              <MenuItem onClick={registerModal.onOpen} label="Regístrate" />
-              <MenuItem onClick={loginModal.onOpen} label="Iniciar Sesión" />
-            </>
+            {currentUser ? (
+              <>
+                <MenuItem label="Mis viajes" onClick={() => {}} />
+                <MenuItem label="Mis favoritos" onClick={() => {}} />
+                <MenuItem label="Mis reservas" onClick={() => {}} />
+                <MenuItem label="Mis propiedades" onClick={() => {}} />
+                <MenuItem label="Airbnb tu casa" onClick={() => {}} />
+                <hr />
+                <MenuItem label="Logout" onClick={() => signOut()} />
+              </>
+            ) : (
+              <>
+                <MenuItem onClick={registerModal.onOpen} label="Regístrate" />
+                <MenuItem onClick={loginModal.onOpen} label="Iniciar Sesión" />
+              </>
+            )}
           </div>
         </div>
       )}
