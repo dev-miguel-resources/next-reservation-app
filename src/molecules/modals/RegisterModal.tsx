@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -10,9 +10,11 @@ import Heading from "@molecules/heading/Heading";
 import Input from "@molecules/inputs/Input";
 import Button from "@molecules/button/Button";
 import useRegisterModal from "@custom-hooks/useRegisterModal";
+import useLoginModal from "@custom-hooks/useLoginModal";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
+  const loginModal = useLoginModal();
   const [isLoading, setIsLoading] = useState(false);
 
   // init form
@@ -44,6 +46,11 @@ const RegisterModal = () => {
         setIsLoading(false);
       });
   };
+
+  const onToggle = useCallback(() => {
+	registerModal.onClose();
+	loginModal.onOpen();
+  }, [loginModal, registerModal])
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -81,7 +88,7 @@ const RegisterModal = () => {
         >
           <div>Ya tienes una cuenta?</div>
           <div
-            onClick={registerModal.onClose}
+            onClick={onToggle}
             className="
 							text-neutral-500
 							cursor-pointer

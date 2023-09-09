@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
@@ -10,9 +10,11 @@ import Heading from "@molecules/heading/Heading";
 import Input from "@molecules/inputs/Input";
 import Button from "@molecules/button/Button";
 import useLoginModal from "@custom-hooks/useLoginModal";
+import useRegisterModal from "@custom-hooks/useRegisterModal";
 
 const LoginModal = () => {
   const loginModal = useLoginModal();
+  const registerModal = useRegisterModal();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -27,6 +29,11 @@ const LoginModal = () => {
       password: "",
     },
   });
+
+  const onToogle = useCallback(() => {
+    loginModal.onClose();
+    registerModal.onOpen();
+  }, [loginModal, registerModal]);
 
   const onSubmit: SubmitHandler<FieldValues> = data => {
     setIsLoading(true);
@@ -81,14 +88,17 @@ const LoginModal = () => {
 						justify-center flex flex-row items-center gap-2
 					"
         >
+          <div>Primera vez ocupando Airbnb?</div>
           <div
-            onClick={loginModal.onClose}
+            onClick={onToogle}
             className="
 							text-neutral-500
 							cursor-pointer
 							hover:underline
 						"
-          ></div>
+          >
+            Crea una cuenta
+          </div>
         </div>
       </div>
     </div>
