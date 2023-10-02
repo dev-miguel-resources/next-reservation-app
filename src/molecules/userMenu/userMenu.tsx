@@ -7,23 +7,31 @@ import MenuItem from "@molecules/menuItem/MenuItem";
 import useRegisterModal from "@custom-hooks/useRegisterModal";
 import useLoginModal from "@custom-hooks/useLoginModal";
 import { UserMenuProps } from "./interfaces/userMenuProps.interface";
+import useRentModal from "@custom-hooks/useRentModal";
 
-// dejar algunas definiciones pendientes: currentUser
-//  no olvidar lo del signout
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const [isOpen, setIsOpen] = useState(false);
+  const rentModal = useRentModal();
 
   const toogleOpen = useCallback(() => {
     setIsOpen(value => !value);
   }, []);
 
+  const onRent = useCallback(() => {
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+
+    rentModal.onOpen();
+  }, [currentUser, loginModal, rentModal]);
+
   return (
     <div className="relative">
       <div className="flex flex-row items-center gap-3">
         <div
-          onClick={() => {}}
+          onClick={onRent}
           className="
 						hidden
 						md:block
@@ -85,7 +93,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
                 <MenuItem label="Mis favoritos" onClick={() => {}} />
                 <MenuItem label="Mis reservas" onClick={() => {}} />
                 <MenuItem label="Mis propiedades" onClick={() => {}} />
-                <MenuItem label="Airbnb tu casa" onClick={() => {}} />
+                <MenuItem label="Airbnb tu casa" onClick={rentModal.onOpen} />
                 <hr />
                 <MenuItem label="Logout" onClick={() => signOut()} />
               </>

@@ -4,7 +4,7 @@ import { IoMdClose } from "react-icons/io";
 import Button from "@molecules/button/Button";
 import ModalProps from "@molecules/modals/interfaces/modal.interface";
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, title, body, footer, actionLabel, disabled }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, title, body, footer, actionLabel, disabled, secondaryAction, secondaryActionLabel }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
   useEffect(() => {
