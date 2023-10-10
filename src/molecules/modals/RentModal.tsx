@@ -14,16 +14,15 @@ import useRentModal from "@custom-hooks/useRentModal";
 import { STEPS } from "./enum/rentSteps.enum";
 import { categories } from "@molecules/categories/Categories/constants/categories";
 import CategoryInput from "@molecules/inputs/CategoryInput";
+import CountrySelect from "@molecules/inputs/CountrySelect";
+import Map from "@molecules/Map/Map";
+
 
 // otros input pendientes
 
 const RentModal = () => {
   const rentModal = useRentModal();
   const [step, setStep] = useState(STEPS.CATEGORY);
-
-  const onBack = () => {};
-
-  const onNext = () => {};
 
   const {
     register,
@@ -77,6 +76,14 @@ const RentModal = () => {
     return "Back";
   }, [step]);
 
+  const onBack = () => {
+	setStep(value => value - 1);
+  };
+
+  const onNext = () => {
+	setStep(value => value + 1);
+  };
+
   let bodyContent = (
     <div className="flex flex-col gap-8">
       <Heading title="Cuál de estas describe mejor tu lugar?" subtitle="Selecciona una categoría" />
@@ -103,6 +110,16 @@ const RentModal = () => {
       </div>
     </div>
   );
+
+  if (step === STEPS.LOCATION) {
+	bodyContent = (
+		<div className="flex flex-col gap-8">
+			<Heading title="Dónde está ubicado tu lugar?" subtitle="Ayúdanos a encontrarte!"  />
+			<CountrySelect value={location} onChange={value => setCustomValue("location", value)} />
+			<Map center={location?.latlng} />
+		</div>
+	)
+  }
 
   return (
     <Modal
