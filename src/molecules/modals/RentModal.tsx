@@ -15,9 +15,7 @@ import { STEPS } from "./enum/rentSteps.enum";
 import { categories } from "@molecules/categories/Categories/constants/categories";
 import CategoryInput from "@molecules/inputs/CategoryInput";
 import CountrySelect from "@molecules/inputs/CountrySelect";
-// import Map from "@molecules/Map/Map";
-
-// otros input pendientes
+import Counter from "@molecules/inputs/Counter";
 
 const RentModal = () => {
   const rentModal = useRentModal();
@@ -62,9 +60,9 @@ const RentModal = () => {
     // memorizar el valor del step
     // valor del step
     if (step === STEPS.PRICE) {
-      return "Create";
+      return "Atrás";
     }
-    return "Next";
+    return "Siguiente";
   }, [step]);
 
   const secondaryActionLabel = useMemo(() => {
@@ -72,7 +70,7 @@ const RentModal = () => {
     if (step === STEPS.CATEGORY) {
       return undefined;
     }
-    return "Back";
+    return "Atrás";
   }, [step]);
 
   const onBack = () => {
@@ -127,6 +125,43 @@ const RentModal = () => {
       </div>
     );
   }
+
+  if (step === STEPS.INFO) {
+    bodyContent = (
+      <div className="flex flex-col gap-8">
+        <Heading title="Comparte algunos conceptos básicos sobre tu lugar." subtitle="¿Qué comodidades tienes?" />
+        <Counter
+          onChange={value => setCustomValue("guestCount", value)}
+          value={guestCount}
+          title="Huéspedes"
+          subtitle="¿Cuántos huéspedes permites?"
+        />
+        <hr />
+        <Counter
+          onChange={value => setCustomValue("roomCount", value)}
+          value={roomCount}
+          title="Habitaciones"
+          subtitle="¿Cuántas habitaciones tienes?"
+        />
+        <hr />
+        <Counter
+          onChange={value => setCustomValue("bathroomCount", value)}
+          value={bathroomCount}
+          title="Baños"
+          subtitle="¿Cuántas baños tienes?"
+        />
+      </div>
+    );
+  }
+
+  /*if (step === STEPS.IMAGES) {
+    bodyContent = (
+		<div className="flex flex-col gap-8">
+			<Heading title="Agrega una foto de tu lugar" subtitle="Muestra a los huéspedes como luce tu lugar" />
+			<ImageUpload onChange={value => setCustomValue("imageSrc", value)} value={imageSrc} />
+		</div>
+	 );
+  }*/
 
   return (
     <Modal
