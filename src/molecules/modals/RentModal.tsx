@@ -16,9 +16,11 @@ import { categories } from "@molecules/categories/Categories/constants/categorie
 import CategoryInput from "@molecules/inputs/CategoryInput";
 import CountrySelect from "@molecules/inputs/CountrySelect";
 import Counter from "@molecules/inputs/Counter";
+import ImageUpload from "@molecules/inputs/ImageUpload";
 
 const RentModal = () => {
   const rentModal = useRentModal();
+  const [isLoading, setIsLoading] = useState(false);
   const [step, setStep] = useState(STEPS.CATEGORY);
 
   const {
@@ -154,14 +156,25 @@ const RentModal = () => {
     );
   }
 
-  /*if (step === STEPS.IMAGES) {
+  if (step === STEPS.IMAGES) {
     bodyContent = (
 		<div className="flex flex-col gap-8">
 			<Heading title="Agrega una foto de tu lugar" subtitle="Muestra a los huéspedes como luce tu lugar" />
 			<ImageUpload onChange={value => setCustomValue("imageSrc", value)} value={imageSrc} />
 		</div>
 	 );
-  }*/
+  }
+
+  if (step === STEPS.DESCRIPTION) {
+	bodyContent = (
+		<div className="flex flex-col gap-8">
+			<Heading title="Cómo describirías tu lugar?" subtitle="Describe de manera breve y lo mejor posible!" />
+			<Input id="title" label="title" disabled={isLoading} register={register} errors={errors} required />
+			<hr />
+			<Input id="description" label="Description" disabled={isLoading} register={register} errors={errors} required />
+		</div>
+	)
+  }
 
   return (
     <Modal
