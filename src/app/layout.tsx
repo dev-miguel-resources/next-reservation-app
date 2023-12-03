@@ -1,10 +1,10 @@
 import { Open_Sans } from "next/font/google";
-import ClientProcessor from "@molecules/clientProcessor/ClientProcessor";
-import Navbar from "@molecules/navbar/Navbar";
+import ClientProcessor from "@atoms/clientProcessor/ClientProcessor";
+import Navbar from "@atoms/navbar/Navbar";
 import ToasterProvider from "@providers/ToasterProvider";
-import LoginModal from "@molecules/modals/LoginModal";
-import RegisterModal from "@molecules/modals/RegisterModal";
-import RentModal from "@molecules/modals/RentModal";
+import LoginModal from "@atoms/modals/LoginModal";
+import RegisterModal from "@atoms/modals/RegisterModal";
+import RentModal from "@atoms/modals/RentModal";
 import getCurrentUser from "./serverActions/getCurrentUser";
 import "@atoms/globals.css";
 

@@ -21,8 +21,8 @@
 		],
 		"paths": {
 			"@public/*": ["./public/*"],
-			"@atoms/*": ["./src/app/*"],
-			"@molecules/*": ["./src/molecules/*"],
+			"@molecules/*": ["./src/app/*"],
+			"@atoms/*": ["./src/atoms/*"],
 			"@custom-hooks/*": ["./src/custom-hooks/*"],
 			"@providers/*": ["./src/providers/*"],
 			"@/*": ["./src/*"]
