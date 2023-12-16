@@ -1,4 +1,4 @@
-import { SafeListing, SafeReservation, SafeUser } from "@atoms/types";
+import { SafeListing, SafeReservation, SafeUser } from "@molecules/types";
 
 export interface IListingCardsProps {
 	data: SafeListing;
