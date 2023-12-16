@@ -2,7 +2,6 @@
 
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useFavorite } from "@custom-hooks/useFavorite";
-import { SafeUser } from "@molecules/types";
 import { HeartButtonProps } from "./interfaces/heartButton.interface";
 
 const HeartButton: React.FC<HeartButtonProps> = ({ listingId, currentUser }) => {
