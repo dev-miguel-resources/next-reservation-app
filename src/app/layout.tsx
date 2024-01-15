@@ -6,7 +6,7 @@ import LoginModal from "@atoms/modals/LoginModal";
 import RegisterModal from "@atoms/modals/RegisterModal";
 import RentModal from "@atoms/modals/RentModal";
 import getCurrentUser from "./serverActions/getCurrentUser";
-import "@atoms/globals.css";
+import "./globals.css";
 
 export const metadata = {
   title: "Alquiler de alojamientos vacacionales y apartamentos",
