@@ -34,15 +34,65 @@ const ListingClient: React.FC<ListingClientProps> = ({ listing, reservations = [
   const loginModal = useLoginModal();
   const router = useRouter();
 
-  useEffect(() => {}, []); // por completar
+  const [isLoading, setIsLoading] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(listing.price);
+  const [dateRange, setDateRange] = useState<Range>(initialDateRange);
+
+  useEffect(() => {
+    if (dateRange.startDate && dateRange.endDate) {
+      const dayCount = differenceInDays(dateRange.endDate, dateRange.startDate);
+
+      if (dayCount && listing.price) {
+        setTotalPrice(dayCount * listing.price);
+      } else {
+        setTotalPrice(listing.price);
+      }
+    }
+  }, [dateRange, listing.price]);
 
   const category = useMemo(() => {
     return categories.find(items => items.label === listing.category);
   }, [listing.category]);
 
-  const disabledDates = () => {}; // por completar
+  const disabledDates = useMemo(() => {
+    let dates: Date[] = [];
 
-  const onCreateReservation = () => {}; // por completar
+    reservations.forEach((reservation: any) => {
+      const range = eachDayOfInterval({
+        start: new Date(reservation.startDate),
+        end: new Date(reservation.endDate),
+      });
+      dates = [...dates, ...range];
+    });
+
+    return dates;
+  }, [reservations]);
+
+  const onCreateReservation = useCallback(() => {
+    if (!currentUser) {
+      return loginModal.onOpen();
+    }
+    setIsLoading(true);
+
+    axios
+      .post("/api/reservations", {
+        totalPrice,
+        startDate: dateRange.startDate,
+        endDate: dateRange.endDate,
+        listingId: listing?.id,
+      })
+      .then(() => {
+        toast.success("Alquiler reservado!");
+        setDateRange(initialDateRange);
+        router.push("/trips");
+      })
+      .catch(() => {
+        toast.error("Algo ha ocurrido.");
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, [currentUser, dateRange, listing?.id, loginModal, router, totalPrice]);
 
   return (
     <Container>
@@ -62,7 +112,11 @@ const ListingClient: React.FC<ListingClientProps> = ({ listing, reservations = [
           />
           <div
             className="
-
+						grid
+						grid-cols-1
+						md:grid-cols-7
+						md:gap-10
+						mt-6
 						"
           >
             <ListingInfo
@@ -82,7 +136,15 @@ const ListingClient: React.FC<ListingClientProps> = ({ listing, reservations = [
 								md:col-span-3
 							"
             >
-              <ListingReservation />
+              <ListingReservation
+                price={listing.price}
+                totalPrice={totalPrice}
+                onChangeDate={value => setDateRange(value)}
+                dateRange={dateRange}
+                onSubmit={onCreateReservation}
+                disabled={isLoading}
+                disabledDates={disabledDates}
+              />
             </div>
           </div>
         </div>
