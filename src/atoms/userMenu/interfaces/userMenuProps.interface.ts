@@ -1,5 +1,5 @@
 import { User } from "@prisma/client";
-import { SafeUser } from "@atoms/types";
+import { SafeUser } from "@molecules/types";
 
 export interface UserMenuProps {
 	currentUser?: SafeUser | null;
