@@ -1,9 +1,57 @@
 "use client";
-import { BiSearch } from "react-icons/bi";
 
-const Search = () => (
-	<div
-		className="
+import { useMemo } from "react";
+import { useSearchParams } from "next/navigation";
+import { BiSearch } from "react-icons/bi";
+import { differenceInDays } from "date-fns";
+
+import useSearchModal from "@custom-hooks/useSearchModal";
+import useCountries from "@custom-hooks/useCountries";
+
+const Search = () => {
+  const searchModal = useSearchModal();
+  const params = useSearchParams();
+  const { getCountryByValue } = useCountries();
+
+  const locationValue = params?.get("locationValue");
+  const startDate = params?.get("startDate");
+  const endDate = params?.get("endDate");
+  const guestCount = params?.get("guestCount");
+
+  const locationLabel = useMemo(() => {
+    if (locationValue) {
+      return getCountryByValue(locationValue as string)?.label;
+    }
+
+    return "En cualquier lugar del mundo";
+  }, [getCountryByValue, locationValue]);
+
+  const durationLabel = useMemo(() => {
+    if (startDate && endDate) {
+      const start = new Date(startDate as string);
+      const end = new Date(endDate as string);
+      let diff = differenceInDays(end, start);
+
+      if (diff === 0) {
+        diff = 1;
+      }
+
+      return `${diff} días`;
+    }
+    return "Cualquier semana";
+  }, [endDate, startDate]);
+
+  const guestLabel = useMemo(() => {
+    if (guestCount) {
+      return `${guestCount} Invitados`;
+    }
+    return "¿Cuántos?";
+  }, [guestCount]);
+
+  return (
+    <div
+      onClick={searchModal.onOpen}
+      className="
 			border-[1px]
 			w-full
 			md:w-auto
@@ -13,26 +61,26 @@ const Search = () => (
 			hover:shadow-md
 			cursor-pointer
 		"
-	>
-		<div
-			className="
+    >
+      <div
+        className="
 				flex
 				flex-row
 				items-center
 				justify-between
 			"
-		>
-			<div
-				className="
+      >
+        <div
+          className="
 					text-sm
 					font-semibold
 					px-6
 				"
-			>
-				En cualquier lugar del mundo
-			</div>
-			<div
-				className="
+        >
+          {locationLabel}
+        </div>
+        <div
+          className="
 					hidden
 					sm:block
 					text-sm
@@ -42,11 +90,11 @@ const Search = () => (
 					flex-1
 					text-center
 				"
-			>
-				Cualquier semana
-			</div>
-			<div
-				className="
+        >
+          {durationLabel}
+        </div>
+        <div
+          className="
 					text-sm
 					pl-6
 					pr-2
@@ -56,21 +104,22 @@ const Search = () => (
 					items-center
 					gap-3
 				"
-			>
-				<div className="hidden sm:block">¿Cuántos?</div>
-				<div
-					className="
+        >
+          <div className="hidden sm:block">{guestLabel}</div>
+          <div
+            className="
 						p-2
 						bg-rose-500
 						rounded-full
 						text-white
 					"
-				>
-					<BiSearch size={18} />
-				</div>
-			</div>
-		</div>
-	</div>
-);
+          >
+            <BiSearch size={18} />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Search;

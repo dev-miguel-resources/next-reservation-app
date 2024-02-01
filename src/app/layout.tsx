@@ -5,6 +5,8 @@ import ToasterProvider from "@providers/ToasterProvider";
 import LoginModal from "@atoms/modals/LoginModal";
 import RegisterModal from "@atoms/modals/RegisterModal";
 import RentModal from "@atoms/modals/RentModal";
+import SearchModal from "@atoms/modals/SearchModal";
+
 import getCurrentUser from "./serverActions/getCurrentUser";
 import "./globals.css";
 
@@ -25,6 +27,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <ToasterProvider />
           <LoginModal />
           <RegisterModal />
+			 <SearchModal />
           <RentModal />
           <Navbar currentUser={currentUser} />
         </ClientProcessor>
