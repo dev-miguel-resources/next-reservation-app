@@ -2,8 +2,9 @@ import bcrypt from "bcryptjs";
 import NextAuth, { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+//import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import prisma from "@/app/prismaContext/prismadb";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 
 export const authOptions: AuthOptions = {
 	adapter: PrismaAdapter(prisma),
