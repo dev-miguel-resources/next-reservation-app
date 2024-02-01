@@ -1,6 +1,7 @@
 import prisma from "@/app/prismaContext/prismadb";
 import { IListingsParams } from "./interfaces/listingsParams.interface";
 
+// revisar funcionalidad
 export default async function getListings(params: IListingsParams) {
 	try {
 		const { userId, roomCount, guestCount, bathroomCount, locationValue, startDate, endDate, category } = params;
@@ -64,7 +65,7 @@ export default async function getListings(params: IListingsParams) {
 			},
 		});
 
-		const safeListings = listings.map((listing: any) => ({
+		const safeListings = listings.map(listing => ({
 			...listing,
 			createdAt: listing.createdAt.toISOString(),
 		}));
