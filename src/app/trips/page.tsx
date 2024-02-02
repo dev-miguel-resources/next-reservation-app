@@ -2,8 +2,8 @@ import EmptyState from "@atoms/emptyState/EmptyState";
 import ClientProcessor from "@atoms/clientProcessor/ClientProcessor";
 import TripsClient from "./TripsClient";
 
-import getCurrentUser from "@molecules/serverActions/getCurrentUser";
-import getReservations from "@molecules/serverActions/getReservations";
+import getCurrentUser from "@/app/serverActions/getCurrentUser";
+import getReservations from "@/app/serverActions/getReservations";
 
 const TripsPage = async () => {
 

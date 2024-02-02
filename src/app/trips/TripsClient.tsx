@@ -9,7 +9,7 @@ import Container from "@atoms/container/Container";
 import Heading from "@atoms/heading/Heading";
 import ListingCard from "@atoms/listings/ListingCard";
 
-import { SafeReservation, SafeUser } from "@molecules/types";
+import { SafeReservation, SafeUser } from "@/app/types/index";
 
 interface TripsClientProps {
   reservations: SafeReservation[];
