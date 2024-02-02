@@ -1,7 +1,6 @@
 import prisma from "@/app/prismaContext/prismadb";
 import { IListingsParams } from "./interfaces/listingsParams.interface";
 
-// revisar funcionalidad
 export default async function getListings(params: IListingsParams) {
 	try {
 		const { userId, roomCount, guestCount, bathroomCount, locationValue, startDate, endDate, category } = params;
@@ -39,7 +38,6 @@ export default async function getListings(params: IListingsParams) {
 		}
 
 		if (startDate && endDate) {
-			// clasures for startDate & endDate
 			query.NOT = {
 				reservations: {
 					some: {

@@ -8,8 +8,6 @@ interface ErrorStateProps {
   error: Error;
 }
 
-// forzar una excepción en el ciclo de vida
-
 // error boundaries
 const ErrorState: React.FC<ErrorStateProps> = ({ error }) => {
   useEffect(() => {

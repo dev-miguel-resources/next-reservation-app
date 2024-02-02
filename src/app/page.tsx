@@ -17,7 +17,7 @@ const Home = async ({ searchParams }: HomeProps) => {
   const currentUser = await getCurrentUser();
 
   const searchParamsData: IListingsParams = {
-	userId: currentUser?.id, // Reemplaza 'userID' con el ID real del usuario
+	userId: currentUser?.id,
 	guestCount: searchParams.guestCount,
 	bathroomCount: searchParams.bathroomCount,
 	category: searchParams.category,
